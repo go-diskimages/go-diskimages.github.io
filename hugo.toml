@@ -1,0 +1,39 @@
+baseURL = "https://go-diskimages.github.io/"
+title = "go-diskimages"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+# Each repo card. "result" is the honest headline (what it does + limits).
+# "kind" = core (shared interface / unified toolkit) vs format (one image
+# format). "type" = lib vs cli. Only repos with real source are listed; the
+# empty placeholders (raw, tart-oci) and brand assets are intentionally omitted.
+[[params.repos]]
+  name = "diskimage"
+  accel = "Unified disk-image toolkit (create / convert / inspect / patch)"
+  kind = "core"
+  type = "lib"
+  arch = "module github.com/go-diskimages/diskimage · ships cmd/diskimage CLI"
+  result = "Creates and converts VM disk images (raw / QCOW2 / DMG / OCI-Tart), opens them as a uniform BlockDevice, detects the inner filesystem (ext4, APFS, FAT32, NTFS, exFAT, btrfs, XFS, ZFS), reads/writes ext4 volume labels, layers LUKS decryption, and patches GRUB in place. Used to prepare images for Apple Virtualization.framework VMs. OCI/Tart and GRUB paths are darwin-only."
+[[params.repos]]
+  name = "interface"
+  accel = "Shared format interfaces (Creator / Detector / RawConverter / Resizer)"
+  kind = "core"
+  type = "lib"
+  arch = "module github.com/go-diskimages/interface · zero-dependency"
+  result = "Defines the common interfaces every format package satisfies. Thanks to Go's structural typing, format packages need not import it — only callers that use formats polymorphically do. No dependencies beyond the standard library."
+[[params.repos]]
+  name = "qcow2"
+  accel = "QCOW2 v2 codec (Create / Detect / ToRaw / Resize)"
+  kind = "format"
+  type = "lib"
+  arch = "module github.com/go-diskimages/qcow2 · pure Go"
+  result = "Pure-Go QCOW2 v2 reader/writer: create sparse images, detect by magic bytes, convert to raw, and grow the virtual size in place by extending the L1 table. Shrinking is rejected (it could silently discard data). Satisfies the interface module's Format without importing it."
+[[params.repos]]
+  name = "dmg"
+  accel = "Apple UDIF disk-image helpers (detect / pack / unpack)"
+  kind = "format"
+  type = "lib"
+  arch = "module github.com/go-diskimages/dmg · no hdiutil / plutil"
+  result = "Pure-Go Apple UDIF (.dmg) helpers — no external macOS tools, works on every platform. Parses the koly trailer and blkx tables (RAW / NOCOPY / FREE / LZFSE / ZLIB runs). Reads UDRW/UDRO/UDZO/UDSP; writes UDRW/UDRO/UDZO/UDSP. ADC (UDCO) and bzip2 (UDBZ) are read-only — write is not supported."

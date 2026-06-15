@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Site.Title }} — pure-Go disk-image tooling</title>
+<meta name="description" content="Pure-Go disk-image tooling: create, convert, inspect and patch VM disk images (raw, QCOW2, Apple UDIF/DMG, OCI-Tart) with no cgo and no external tools like qemu-img or hdiutil. A unified diskimage toolkit over per-format packages sharing a common interface.">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1b1f24; --muted: #57606a; --card: #f6f8fa;
+    --border: #d0d7de; --accent: #0079a8; --accent-fg: #ffffff;
+    --core: #0079a8; --format: #9a6700;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --card: #161b22;
+      --border: #30363d; --accent: #22cce2; --accent-fg: #0d1117;
+      --core: #22cce2; --format: #d29922;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 72px 0 32px; text-align: center; }
+  .logo { width: 88px; height: 88px; margin: 0 auto 18px; display: block; }
+  h1 { font-size: 2.6rem; margin: 0 0 .3em; letter-spacing: -.02em; }
+  .tagline { font-size: 1.2rem; color: var(--muted); margin: 0 auto; max-width: 680px; }
+  .pills { margin: 22px 0 0; }
+  .pill {
+    display: inline-block; margin: 4px; padding: 3px 10px; font-size: .82rem;
+    color: var(--muted); background: var(--card); border: 1px solid var(--border); border-radius: 999px;
+  }
+  .cta { margin: 30px 0 0; }
+  .btn {
+    display: inline-block; padding: 10px 18px; margin: 4px; border-radius: 8px; text-decoration: none;
+    font-weight: 600; border: 1px solid var(--border);
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .btn.ghost { color: var(--fg); background: transparent; }
+  .lead { color: var(--fg); max-width: 800px; margin: 8px auto 0; text-align: center; }
+  .lead code { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; }
+  h2.section { text-align: center; margin: 40px 0 4px; font-size: 1.4rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; }
+  .card h3 { margin: 0 0 .35em; font-size: 1.2rem; display: flex; align-items: center; justify-content: space-between; }
+  .card h3 a { text-decoration: none; }
+  .card .accel { color: var(--muted); font-size: .85rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin: 0 0 .6em; }
+  .card p { margin: 0 0 .8em; color: var(--fg); font-size: .95rem; }
+  .kind { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+  .kind.core { color: var(--core); }
+  .kind.format { color: var(--format); }
+  .card h3 .tags { display: inline-flex; gap: 6px; }
+  .type { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+  .type.lib { color: var(--accent); border-color: var(--accent); }
+  .type.cli { color: var(--accent-fg); background: var(--accent); border-color: var(--accent); }
+  .principles { color: var(--muted); text-align: center; padding: 10px 0 0; max-width: 820px; margin: 0 auto; }
+  footer { color: var(--muted); text-align: center; padding: 40px 0 56px; font-size: .9rem; }
+  a { color: var(--accent); }
+</style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body>
+  <header class="wrap">
+    <img class="logo" src="/img/logo.svg" alt="go-diskimages logo" width="88" height="88">
+    <h1>go-diskimages</h1>
+    <p class="tagline">Pure-Go <strong>disk-image tooling</strong> — create, convert, inspect and
+      patch VM disk images (<code>raw</code>, <code>qcow2</code>, Apple <code>dmg</code>,
+      OCI-Tart) with <strong>no cgo</strong> and no <code>qemu-img</code> or
+      <code>hdiutil</code> on the path.</p>
+    <div class="pills">
+      <span class="pill">CGO_ENABLED=0</span>
+      <span class="pill">no <code>qemu-img</code> / <code>hdiutil</code></span>
+      <span class="pill">unified <code>diskimage</code> toolkit</span>
+      <span class="pill">per-format packages over a shared interface</span>
+      <span class="pill">BSD-3-Clause</span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/go-diskimages/diskimage#readme">Documentation</a>
+      <a class="btn ghost" href="https://github.com/go-diskimages">GitHub</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="lead">One concern lives here &mdash; <strong>VM disk images</strong>. A unified
+      <a href="https://github.com/go-diskimages/diskimage"><code>diskimage</code></a> toolkit sits on
+      top of small, focused per-format packages (<code>qcow2</code>, <code>dmg</code>, and a
+      shared <code>interface</code>), so each format is independently usable yet they compose into
+      one create / convert / inspect / patch surface. Everything is plain <code>go build</code> with
+      <code>CGO_ENABLED=0</code> &mdash; no <code>qemu-img</code>, no <code>hdiutil</code>, no C
+      toolchain.</p>
+
+    <p class="lead"><strong>Honest about coverage and platforms.</strong> The format packages parse
+      the on-disk structures directly &mdash; QCOW2 v2 headers and L1/L2 tables, Apple UDIF
+      <code>koly</code> trailers and <code>blkx</code> run tables. Some paths are deliberately
+      bounded: QCOW2 grows but never shrinks; UDIF write support is limited to the formats listed
+      below (ADC and bzip2 are read-only); OCI/Tart extraction and GRUB patching are darwin-only.
+      Two repositories in the org (<code>raw</code>, <code>tart-oci</code>) are reserved
+      placeholders and are not listed here.</p>
+
+    <h2 class="section">Repositories</h2>
+    <section class="grid">
+      {{ range .Site.Params.repos }}
+      <article class="card">
+        <h3>
+          <a href="https://github.com/go-diskimages/{{ .name }}"><code>{{ .name }}</code></a>
+          <span class="tags"><span class="type {{ .type }}">{{ .type }}</span><span class="kind {{ .kind }}">{{ .kind }}</span></span>
+        </h3>
+        <p class="accel">{{ .accel }}</p>
+        <p class="arch" style="font-size:.85rem;font-weight:600;margin:.3rem 0 0;color:var(--accent)">{{ .arch }}</p>
+        <p>{{ .result }}</p>
+      </article>
+      {{ end }}
+    </section>
+    <p class="principles">Every module is pure Go with <code>CGO_ENABLED=0</code> and no external
+      command-line tools. Format packages parse the on-disk structures themselves and satisfy the
+      shared <code>interface</code> module by structural typing, without importing it. Capabilities
+      and their limits are stated plainly on each card rather than implied. BSD-3-Clause throughout.</p>
+  </main>
+
+  <footer class="wrap">
+    BSD-3-Clause · <a href="https://github.com/go-diskimages">github.com/go-diskimages</a>
+  </footer>
+</body>
+</html>
