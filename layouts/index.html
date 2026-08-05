@@ -102,19 +102,19 @@
   <main class="wrap">
     <p class="lead">One concern lives here &mdash; <strong>VM disk images</strong>. A unified
       <a href="https://github.com/go-diskimages/diskimage"><code>diskimage</code></a> toolkit sits on
-      top of small, focused per-format packages (<code>qcow2</code>, <code>dmg</code>, and a
-      shared <code>interface</code>), so each format is independently usable yet they compose into
-      one create / convert / inspect / patch surface. Everything is plain <code>go build</code> with
-      <code>CGO_ENABLED=0</code> &mdash; no <code>qemu-img</code>, no <code>hdiutil</code>, no C
-      toolchain.</p>
+      top of small, focused per-format packages (<code>raw</code>, <code>qcow2</code>,
+      <code>dmg</code>, <code>tart-oci</code>, and a shared <code>interface</code>), so each format
+      is independently usable yet they compose into one create / convert / resize / inspect
+      surface. Everything is plain <code>go build</code> with <code>CGO_ENABLED=0</code>
+      &mdash; no <code>qemu-img</code>, no <code>hdiutil</code>, no C toolchain.</p>
 
     <p class="lead"><strong>Honest about coverage and platforms.</strong> The format packages parse
       the on-disk structures directly &mdash; QCOW2 v2 headers and L1/L2 tables, Apple UDIF
       <code>koly</code> trailers and <code>blkx</code> run tables. Some paths are deliberately
       bounded: QCOW2 grows but never shrinks; UDIF write support is limited to the formats listed
-      below (ADC and bzip2 are read-only); OCI/Tart extraction and GRUB patching are darwin-only.
-      Two repositories in the org (<code>raw</code>, <code>tart-oci</code>) are reserved
-      placeholders and are not listed here.</p>
+      below (ADC and bzip2 are read-only). GRUB-config patching lives in the sibling
+      <a href="https://github.com/go-bootloaders/grub"><code>go-bootloaders/grub</code></a>
+      package, not in this org.</p>
 
     <h2 class="section">Repositories</h2>
     <section class="grid">

@@ -7,15 +7,15 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
 
 # Each repo card. "result" is the honest headline (what it does + limits).
 # "kind" = core (shared interface / unified toolkit) vs format (one image
-# format). "type" = lib vs cli. Only repos with real source are listed; the
-# empty placeholders (raw, tart-oci) and brand assets are intentionally omitted.
+# format). "type" = lib vs cli. Only repos with real source are listed;
+# brand assets are intentionally omitted.
 [[params.repos]]
   name = "diskimage"
-  accel = "Unified disk-image toolkit (create / convert / inspect / patch)"
+  accel = "Unified disk-image toolkit (create / convert / resize / inspect)"
   kind = "core"
   type = "lib"
   arch = "module github.com/go-diskimages/diskimage · ships cmd/diskimage CLI"
-  result = "Creates and converts VM disk images (raw / QCOW2 / DMG / OCI-Tart), opens them as a uniform BlockDevice, detects the inner filesystem (ext4, APFS, FAT32, NTFS, exFAT, btrfs, XFS, ZFS), reads/writes ext4 volume labels, layers LUKS decryption, and patches GRUB in place. Used to prepare images for Apple Virtualization.framework VMs. OCI/Tart and GRUB paths are darwin-only."
+  result = "Creates, converts, and resizes VM disk images (raw / DMG, plus QCOW2 via the CLI), opens them as a uniform BlockDevice, detects the inner filesystem (ext4, APFS, FAT32, NTFS, exFAT, btrfs, XFS, ZFS), reads/writes ext4 volume labels, and layers LUKS or APFS FileVault decryption. Used to prepare images for Apple Virtualization.framework VMs. Pure Go, cross-platform. GRUB patching and OCI/Tart extraction live in the sibling go-bootloaders/grub and tart-oci packages."
 [[params.repos]]
   name = "interface"
   accel = "Shared format interfaces (Creator / Detector / RawConverter / Resizer)"
@@ -37,3 +37,17 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "404"]
   type = "lib"
   arch = "module github.com/go-diskimages/dmg · no hdiutil / plutil"
   result = "Pure-Go Apple UDIF (.dmg) helpers — no external macOS tools, works on every platform. Parses the koly trailer and blkx tables (RAW / NOCOPY / FREE / LZFSE / ZLIB runs). Reads UDRW/UDRO/UDZO/UDSP; writes UDRW/UDRO/UDZO/UDSP. ADC (UDCO) and bzip2 (UDBZ) are read-only — write is not supported."
+[[params.repos]]
+  name = "raw"
+  accel = "Unstructured (identity) disk-image codec"
+  kind = "format"
+  type = "lib"
+  arch = "module github.com/go-diskimages/raw · pure Go"
+  result = "The trivial identity format: byte-for-byte disk contents, no header or metadata. Create writes a sparse zero-filled file, ToRaw is a straight copy, Detect is the negative/fallback case, and Resize both grows and shrinks. Satisfies the interface module's Format without importing it."
+[[params.repos]]
+  name = "tart-oci"
+  accel = "Tart/OCI VM-image puller (registry v2, digest-verified)"
+  kind = "format"
+  type = "lib"
+  arch = "module github.com/go-diskimages/tart-oci · pure Go"
+  result = "Pulls Tart VM images stored as OCI artifacts (e.g. ghcr.io/cirruslabs/*), speaking the OCI distribution v2 API. Verifies every blob against its digest, decompresses Apple-LZ4-framed disk layers, and materializes a byte-exact raw disk. No tart, no hdiutil, no darwin-only code."
