@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{{/* Dark Reader repaints pages that already draw their own dark theme, as this one does: ask it to stand aside. */}}
+<meta name="darkreader-lock">
 <title>{{ .Site.Title }} — pure-Go disk-image tooling</title>
 <meta name="description" content="Pure-Go disk-image tooling: create, convert, inspect and patch VM disk images (raw, QCOW2, Apple UDIF/DMG, OCI-Tart) with no cgo and no external tools like qemu-img or hdiutil. A unified diskimage toolkit over per-format packages sharing a common interface.">
 <style>
