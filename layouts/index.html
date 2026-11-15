@@ -41,19 +41,17 @@
   <div class="hero"><div class="wrap">
     <div>
       <h1 class="head">go-diskimages</h1>
-      <p class="sub">Pure-Go <strong>disk-image tooling</strong> — create, convert, inspect and
+      <p class="sub">{{ if partial "mantra-on.html" . }}Go{{ else }}Pure-Go{{ end }} <strong>disk-image tooling</strong> — create, convert, inspect and
       patch VM disk images (<code>raw</code>, <code>qcow2</code>, Apple <code>dmg</code>,
-      OCI-Tart) with <strong>no cgo</strong> and no <code>qemu-img</code> or
+      OCI-Tart) with <strong>{{ if not (partial "mantra-on.html" $) }}no cgo{{ end }}</strong> and no <code>qemu-img</code> or
       <code>hdiutil</code> on the path.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://github.com/go-diskimages/diskimage#readme">{{ partial "icons/book.html" . }}Documentation</a>
-        <a class="btn btn-ghost" href="https://github.com/go-diskimages">{{ partial "icons/github.html" . }}GitHub</a>
-      </div>
-      <div class="trust">{{ if not (partial "mantra-on.html" $) }}<span class="pill">CGO_ENABLED=0</span>{{ end }}
+      {{/* [[params.cta]] in hugo.toml: the kit renders the row */}}
+      {{ partial "cta.html" . }}
+      <div class="trust">{{ if not (partial "mantra-on.html" $) }}{{ if not (partial "mantra-on.html" $) }}<span class="pill">CGO_ENABLED=0</span>{{ end }}{{ end }}
       <span class="pill">no <code>qemu-img</code> / <code>hdiutil</code></span>
       <span class="pill">unified <code>diskimage</code> toolkit</span>
       <span class="pill">per-format packages over a shared interface</span>
-      {{ if not (partial "mantra-on.html" $) }}<span class="pill">BSD-3-Clause</span>{{ end }}</div>
+      {{ if not (partial "mantra-on.html" $) }}{{ if not (partial "mantra-on.html" $) }}<span class="pill">BSD-3-Clause</span>{{ end }}{{ end }}</div>
     </div>
     {{ partial "hero-carousel.html" . }}
   </div></div>
